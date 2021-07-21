@@ -1,0 +1,1 @@
+# Mango Restaurant - Net 6.0 Azure Micro Services Project
