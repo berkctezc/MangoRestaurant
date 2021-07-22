@@ -1,88 +1,12 @@
-# Mango Restaurant - Net 6.0 Azure Micro Services Project
+﻿using Mango.Web.Models;
+using Mango.Web.Services.IServices;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 
----
-
-### Using Azure Storage
-
-- Login to your account in portal.azure.com
-- Search for Storage Account and create a new one
-- You could use Storage Explorer in browser or download for Linux, macOS or Windows
-- In Blob containers create a new blob and upload files
-- For access permissions right click to blob and set public access level to "Public read access for blobs only"
-
-### Consuming API From MVC Layer
-
-* Firstly add API urls to appsettings.json like 
-
-```json
-"ServiceUrls": {
-    "ProductAPI": "https://localhost:5001/"
-}
-```
-
-- Create a class named SD to keep static data
-
-```cs
-namespace Mango.Web
-{
-    public static class SD
-    {
-        public static string ProductAPIBase { get; set; }
-        public enum ApiType { GET, POST, PUT, DELETE }
-    }
-}
-```
-
-- Create Dtos in models folder (copy response and product dtos from other layer)
-
-- Code repositories in Services folder with IServices inside for keeping interfaces
-
-```cs
-namespace Mango.Web.Services.IServices
-{
-    public interface IProductService
-    {
-        Task<T> GetAllProductsAsync<T>();
-        Task<T> GetProductByIdAsync<T>(int id);
-        Task<T> CreateProductAsync<T>(ProductDto productDto);
-        Task<T> UpdateProductAsync<T>(ProductDto productDto);
-        Task<T> DeleteProductAsync<T>(int id);
-    }
-}
-```
-
-- But coding for every type of api will be repetitive. We need to make it more generic
-- Create **ApiRequest** model
-
-```cs
-namespace Mango.Web.Models
-{
-    public class ApiRequest
-    {
-        public ApiType ApiType { get; set; } = ApiType.GET;
-        public string Url { get; set; }
-        public object Data { get; set; }
-        public string AccessToken { get; set; }
-    }
-}
-```
-
-- Create **IBaseService** in IServices
-
-```cs
-namespace Mango.Web.Services.IServices
-{
-   public interface IBaseService:IDisposable
-    {
-        ResponseDto responseModel { get;set;} 
-        Task<T> SendAsync<T>(ApiRequest apiRequest);
-    }
-}
-```
-
-- Implement it in **BaseService**
-
-```cs
 namespace Mango.Web.Services
 {
     public class BaseService : IBaseService
@@ -154,5 +78,3 @@ namespace Mango.Web.Services
         }
     }
 }
-```
-
