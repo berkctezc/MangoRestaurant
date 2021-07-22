@@ -5,15 +5,22 @@ VisualStudioVersion = 17.0.31512.422
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrontEnd", "FrontEnd", "{34B357E2-8AD9-411D-90B6-C1321A56696A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mango.Web", "Mango.Web\Mango.Web.csproj", "{CED6C742-ACA6-4457-94D0-DFB7548E0D12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mango.Web", "Mango.Web\Mango.Web.csproj", "{CED6C742-ACA6-4457-94D0-DFB7548E0D12}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{9E6132FF-5FDC-4145-A0FD-F61816FD91CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mango.Services.ProductAPI", "Mango.Services.ProductAPI\Mango.Services.ProductAPI.csproj", "{5C0CF516-D104-42FA-9C22-E2DCBC852DD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mango.Services.ProductAPI", "Mango.Services.ProductAPI\Mango.Services.ProductAPI.csproj", "{5C0CF516-D104-42FA-9C22-E2DCBC852DD9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DB2525E2-3DF9-450F-877E-75192E257C95}"
 	ProjectSection(SolutionItems) = preProject
 		README.MD = README.MD
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{5463C38C-01C2-4FB6-825D-FF9B11F13ABF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{BF069991-5B23-4970-B0E1-C231E74C273F}"
+	ProjectSection(SolutionItems) = preProject
+		dotnet.yml = dotnet.yml
 	EndProjectSection
 EndProject
 Global
@@ -37,6 +44,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{CED6C742-ACA6-4457-94D0-DFB7548E0D12} = {34B357E2-8AD9-411D-90B6-C1321A56696A}
 		{5C0CF516-D104-42FA-9C22-E2DCBC852DD9} = {9E6132FF-5FDC-4145-A0FD-F61816FD91CF}
+		{BF069991-5B23-4970-B0E1-C231E74C273F} = {5463C38C-01C2-4FB6-825D-FF9B11F13ABF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BD4CE021-DA0C-4730-9198-FEAC9F1587AF}
