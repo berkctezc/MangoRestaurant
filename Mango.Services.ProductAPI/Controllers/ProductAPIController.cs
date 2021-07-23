@@ -40,7 +40,7 @@ namespace Mango.Services.ProductAPI.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<object> Get([FromRoute] int id)
+        public async Task<object> Get(int id)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace Mango.Services.ProductAPI.Controllers
             catch (Exception ex)
             {
                 _response.IsSuccess = false;
-                _response.ErrorMessages = new List<string> { ex.ToString() }; ;
+                _response.ErrorMessages = new List<string> { ex.ToString() };
             }
 
             return _response;
@@ -83,25 +83,27 @@ namespace Mango.Services.ProductAPI.Controllers
             catch (Exception ex)
             {
                 _response.IsSuccess = false;
-                _response.ErrorMessages = new List<string> { ex.ToString() }; ;
+                _response.ErrorMessages = new List<string> { ex.ToString() };
             }
 
             return _response;
         }
 
         [HttpDelete]
+        [Route("{id}")]
         public async Task<object> Delete(int id)
         {
             try
             {
-                _response.Result = await _productRepository.DeleteProduct(id);
+                bool isSuccess = await _productRepository.DeleteProduct(id);
+                _response.Result = isSuccess;
+
             }
             catch (Exception ex)
             {
                 _response.IsSuccess = false;
-                _response.ErrorMessages = new List<string> { ex.ToString() }; ;
+                _response.ErrorMessages = new List<string> { ex.ToString() };
             }
-
             return _response;
         }
     }
