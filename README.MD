@@ -16,10 +16,11 @@
 
 ```json
 "ServiceUrls": {
-    "ProductAPI": "https://localhost:5001/"
+    "ProductAPI": "https://localhost:5001"
 }
 ```
 
+- Be sure to run apps on different ports or they will conflict
 - Create a class named SD to keep static data
 
 ```cs
@@ -151,6 +152,90 @@ namespace Mango.Web.Services
         public void Dispose()
         {
             GC.SuppressFinalize(true);
+        }
+    }
+}
+```
+
+- Create Product Service interface and implementation class
+
+```cs
+namespace Mango.Web.Services.IServices
+{
+    public interface IProductService : IBaseService
+    {
+        Task<T> GetAllProductsAsync<T>();
+        Task<T> GetProductByIdAsync<T>(int id);
+        Task<T> CreateProductAsync<T>(ProductDto productDto);
+        Task<T> UpdateProductAsync<T>(ProductDto productDto);
+        Task<T> DeleteProductAsync<T>(int id);
+    }
+}
+```
+
+```cs
+namespace Mango.Web.Services
+{
+    public class ProductService : BaseService, IProductService
+    {
+        private readonly IHttpClientFactory _clientFactory;
+
+        public ProductService(IHttpClientFactory clientFactory) : base(clientFactory)
+        {
+            _clientFactory = clientFactory;
+        }
+
+        public async Task<T> CreateProductAsync<T>(ProductDto productDto)
+        {
+            return await this.SendAsync<T>(new ApiRequest()
+            {
+                ApiType = SD.ApiType.POST,
+                Data = productDto,
+                Url = SD.ProductAPIBase + "/api/products",
+                AccessToken = ""
+            });
+        }
+
+
+        public async Task<T> DeleteProductAsync<T>(int id)
+        {
+            return await this.SendAsync<T>(new ApiRequest()
+            {
+                ApiType = SD.ApiType.DELETE,
+                Url = SD.ProductAPIBase + "/api/products/" + id,
+                AccessToken = ""
+            });
+        }
+
+        public async Task<T> GetAllProductsAsync<T>()
+        {
+            return await this.SendAsync<T>(new ApiRequest()
+            {
+                ApiType = SD.ApiType.GET,
+                Url = SD.ProductAPIBase + "/api/products/",
+                AccessToken = ""
+            });
+        }
+
+        public async Task<T> GetProductByIdAsync<T>(int id)
+        {
+            return await this.SendAsync<T>(new ApiRequest()
+            {
+                ApiType = SD.ApiType.GET,
+                Url = SD.ProductAPIBase + "/api/products/" + id,
+                AccessToken = ""
+            });
+        }
+
+        public async Task<T> UpdateProductAsync<T>(ProductDto productDto)
+        {
+            return await this.SendAsync<T>(new ApiRequest()
+            {
+                ApiType = SD.ApiType.PUT,
+                Data = productDto,
+                Url = SD.ProductAPIBase + "/api/products",
+                AccessToken = ""
+            });
         }
     }
 }
