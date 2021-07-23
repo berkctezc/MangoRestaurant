@@ -1,6 +1,8 @@
-# Mango Restaurant - Net 6.0 Azure Micro Services Project
+#  Mango Restaurant - Net 6.0 Azure Micro Services Project
 
 ---
+
+## Basics
 
 ### Using Azure Storage
 
@@ -12,7 +14,13 @@
 
 ### Consuming API From MVC Layer
 
-* Firstly add API urls to appsettings.json like 
+#### Creating API
+
+* Create your API like always with Models, Dtos, DbContexts, IoCs, Mappers maybe even using layered architecture
+
+#### Talking to the API 
+
+* In Web Layer firstly add API urls to appsettings.json like 
 
 ```json
 "ServiceUrls": {
@@ -73,9 +81,9 @@ namespace Mango.Web.Models
 ```cs
 namespace Mango.Web.Services.IServices
 {
-   public interface IBaseService:IDisposable
+    public interface IBaseService : IDisposable
     {
-        ResponseDto responseModel { get;set;} 
+        ResponseDto responseModel { get; set; }
         Task<T> SendAsync<T>(ApiRequest apiRequest);
     }
 }
@@ -93,7 +101,7 @@ namespace Mango.Web.Services
 
         public BaseService(IHttpClientFactory httpClient)
         {
-            this.responseModel = new();
+            responseModel = new();
             this.httpClient = httpClient;
         }
 
@@ -122,7 +130,7 @@ namespace Mango.Web.Services
                         message.Method = HttpMethod.Put;
                         break;
                     case SD.ApiType.DELETE:
-                        message.Method = HttpMethod.Post;
+                        message.Method = HttpMethod.Delete;
                         break;
                     default:
                         message.Method = HttpMethod.Get;
@@ -132,7 +140,7 @@ namespace Mango.Web.Services
 
                 var apiContent = await apiResponse.Content.ReadAsStringAsync();
                 var apiResponseDto = JsonConvert.DeserializeObject<T>(apiContent);
-
+                
                 return apiResponseDto;
             }
             catch (Exception e)
@@ -140,11 +148,11 @@ namespace Mango.Web.Services
                 var dto = new ResponseDto
                 {
                     DisplayMessage = "Error",
-                    ErrorMessages=new List<string> { Convert.ToString(e.Message) },
+                    ErrorMessages = new List<string> { Convert.ToString(e.Message) },
                     IsSuccess = false
                 };
-                var res=JsonConvert.SerializeObject(dto);
-                var apiResponseDto=JsonConvert.DeserializeObject<T>(res);
+                var res = JsonConvert.SerializeObject(dto);
+                var apiResponseDto = JsonConvert.DeserializeObject<T>(res);
                 return apiResponseDto;
             }
         }
@@ -156,6 +164,8 @@ namespace Mango.Web.Services
     }
 }
 ```
+
+#### Creating Service and Controllers on Web for API Controllers
 
 - Create Product Service interface and implementation class
 
@@ -241,3 +251,101 @@ namespace Mango.Web.Services
 }
 ```
 
+- Web controller should look like this. They are sending requests to API with using methods in ProductService that uses BaseService that talks to the API. API responds to these requests using our repositories
+
+```cs
+namespace Mango.Web.Controllers
+{
+    public class ProductController : Controller
+    {
+        private readonly IProductService _productService;
+        public ProductController(IProductService productService){
+            _productService = productService;
+        }
+
+        public async Task<IActionResult> ProductIndex(){
+            List<ProductDto> list = new();
+            var response = await _productService.GetAllProductsAsync<ResponseDto>();
+            if (response != null && response.IsSuccess) list = JsonConvert.DeserializeObject<List<ProductDto>>(Convert.ToString(response.Result));
+
+            return View(list);
+        }
+
+        public async Task<IActionResult> ProductCreate()
+        {
+            return await Task.Run(() => View());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ProductCreate(ProductDto model){
+            if (ModelState.IsValid){
+                var response = await _productService.CreateProductAsync<ResponseDto>(model);
+                if (response != null && response.IsSuccess) return RedirectToAction(nameof(ProductIndex));
+            }
+            return View(model);
+        }
+
+        public async Task<IActionResult> ProductEdit(int productId){
+            if (ModelState.IsValid){
+                var response = await _productService.GetProductByIdAsync<ResponseDto>(productId);
+                if (response != null && response.IsSuccess){
+                    ProductDto model = JsonConvert.DeserializeObject<ProductDto>(Convert.ToString(response.Result));
+                    return View(model);
+                }
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ProductEdit(ProductDto model)
+        {
+            if (ModelState.IsValid){
+                var response = await _productService.UpdateProductAsync<ResponseDto>(model);
+                if (response != null && response.IsSuccess) return RedirectToAction(nameof(ProductIndex));
+            }
+            return View(model);
+        }     
+
+        public async Task<IActionResult> ProductDelete(int productId){
+            if (ModelState.IsValid){
+                var response = await _productService.GetProductByIdAsync<ResponseDto>(productId);
+                if (response != null && response.IsSuccess){
+                    ProductDto model = JsonConvert.DeserializeObject<ProductDto>(Convert.ToString(response.Result));
+                    return View(model);
+                }
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ProductDelete(ProductDto model){
+            if (ModelState.IsValid){
+                var response = await _productService.DeleteProductAsync<ResponseDto>(model.ProductId);
+                if (response.IsSuccess) return RedirectToAction(nameof(ProductIndex));
+            }
+            return View(model);
+        }
+    }
+}
+```
+
+### Identity Server
+
+#### Integrate Quickstart Identity Server
+
+- Install Identity Server dotnet template
+
+```bash
+dotnet new --install Duende.IdentityServer.Templates
+```
+
+- In terminal cd to the main project dir and create the quickstart template for identity server
+
+```bash
+dotnet new isui
+```
+
+- Now we got the template files for our identity server in our projects root folder. Let's create a new MVC Project inside services folder and move the files to corresponding places
