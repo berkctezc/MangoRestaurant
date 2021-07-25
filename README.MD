@@ -6,7 +6,7 @@
 
 ### Using Azure Storage
 
-- Login to your account in portal.azure.com
+- Login to your account in **portal.azure.com**
 - Search for Storage Account and create a new one
 - You could use Storage Explorer in browser or download for Linux, macOS or Windows
 - In Blob containers create a new blob and upload files
