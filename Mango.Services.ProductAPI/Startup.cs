@@ -43,7 +43,7 @@ namespace Mango.Services.ProductAPI
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {
-                    options.Authority = Configuration["ServiceUrls:IdentityServer"];
+                    options.Authority = Configuration["ServiceUrls:IdentityAPI"];
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateAudience = false
