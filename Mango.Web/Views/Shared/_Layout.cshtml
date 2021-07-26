@@ -21,11 +21,12 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item pt-lg-1">
+                    <ul class="navbar-nav flex-grow-1 pt-lg-1">
+                        <partial name="_LoginPartial">
+                        <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item pt-lg-1">
+                        <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Product" asp-action="ProductIndex">Product</a>
                         </li>
                     </ul>
