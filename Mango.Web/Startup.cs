@@ -21,7 +21,7 @@ namespace Mango.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHttpClient<IProductService, IProductService>();
+            services.AddHttpClient<IProductService, ProductService>();
             SD.ProductAPIBase = Configuration["ServiceUrls:ProductAPI"];
 
             services.AddScoped<IProductService, ProductService>();
@@ -44,8 +44,10 @@ namespace Mango.Web
                     options.TokenValidationParameters.NameClaimType = "name";
                     options.TokenValidationParameters.RoleClaimType = "role";
                     options.Scope.Add("mango");
-                    options.SaveTokens=true;
+                    options.SaveTokens = true;
+
                 });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

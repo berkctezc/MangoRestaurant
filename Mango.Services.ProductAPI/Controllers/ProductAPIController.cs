@@ -1,17 +1,14 @@
 ﻿using Mango.Services.ProductAPI.Models.Dto;
 using Mango.Services.ProductAPI.Repository;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Mango.Services.ProductAPI.Controllers
 {
     [Route("api/products")]
-    [ApiController]
     public class ProductAPIController : ControllerBase
     {
         protected ResponseDto _response;
@@ -23,8 +20,8 @@ namespace Mango.Services.ProductAPI.Controllers
             this._response = new ResponseDto();
         }
 
-        [HttpGet]
         [Authorize]
+        [HttpGet]
         public async Task<object> Get()
         {
             try
@@ -35,7 +32,7 @@ namespace Mango.Services.ProductAPI.Controllers
             catch (Exception ex)
             {
                 _response.IsSuccess = false;
-                _response.ErrorMessages = new List<string> { ex.ToString() };
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
             }
             return _response;
         }
@@ -53,7 +50,8 @@ namespace Mango.Services.ProductAPI.Controllers
             catch (Exception ex)
             {
                 _response.IsSuccess = false;
-                _response.ErrorMessages = new List<string> { ex.ToString() };
+                _response.ErrorMessages
+                     = new List<string>() { ex.ToString() };
             }
             return _response;
         }
@@ -64,13 +62,13 @@ namespace Mango.Services.ProductAPI.Controllers
         {
             try
             {
-                ProductDto productToCreate = await _productRepository.CreateUpdateProduct(productDto);
-                _response.Result = productToCreate;
+                ProductDto model = await _productRepository.CreateUpdateProduct(productDto);
+                _response.Result = model;
             }
             catch (Exception ex)
             {
                 _response.IsSuccess = false;
-                _response.ErrorMessages = new List<string> { ex.ToString() };
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
             }
 
             return _response;
@@ -82,13 +80,13 @@ namespace Mango.Services.ProductAPI.Controllers
         {
             try
             {
-                ProductDto productToCreate = await _productRepository.CreateUpdateProduct(productDto);
-                _response.Result = productToCreate;
+                ProductDto model = await _productRepository.CreateUpdateProduct(productDto);
+                _response.Result = model;
             }
             catch (Exception ex)
             {
                 _response.IsSuccess = false;
-                _response.ErrorMessages = new List<string> { ex.ToString() };
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
             }
 
             return _response;
@@ -108,7 +106,7 @@ namespace Mango.Services.ProductAPI.Controllers
             catch (Exception ex)
             {
                 _response.IsSuccess = false;
-                _response.ErrorMessages = new List<string> { ex.ToString() };
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
             }
             return _response;
         }

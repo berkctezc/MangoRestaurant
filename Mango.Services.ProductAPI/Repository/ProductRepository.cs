@@ -5,7 +5,6 @@ using Mango.Services.ProductAPI.Models.Dto;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Mango.Services.ProductAPI.Repository
@@ -37,7 +36,7 @@ namespace Mango.Services.ProductAPI.Repository
         public async Task<bool> DeleteProduct(int productId)
         {
             try
-            {
+                {
                 Product product = await _db.Products.FirstOrDefaultAsync(u => u.ProductId == productId);
                 if (product == null) return false;
                 _db.Products.Remove(product);

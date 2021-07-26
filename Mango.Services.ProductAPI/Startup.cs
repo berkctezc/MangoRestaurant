@@ -3,19 +3,14 @@ using Mango.Services.ProductAPI.DbContexts;
 using Mango.Services.ProductAPI.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Mango.Services.ProductAPI
 {
@@ -73,21 +68,21 @@ namespace Mango.Services.ProductAPI
                 });
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement {
-                {
-                    new OpenApiSecurityScheme
                     {
-                        Reference = new OpenApiReference
+                        new OpenApiSecurityScheme
                         {
-                            Type=ReferenceType.SecurityScheme,
-                            Id="Bearer"
+                            Reference = new OpenApiReference
+                            {
+                                Type=ReferenceType.SecurityScheme,
+                                Id="Bearer"
+                            },
+                            Scheme="oauth2",
+                            Name="Bearer",
+                            In=ParameterLocation.Header
                         },
-                        Scheme="oauth2",
-                        Name="Bearer",
-                        In=ParameterLocation.Header
-                    },
-                    new List<string>()
-                }
-                    });
+                        new List<string>()
+                    }
+                });
             });
         }
 

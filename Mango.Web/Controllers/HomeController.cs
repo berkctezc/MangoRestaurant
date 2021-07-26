@@ -20,17 +20,6 @@ namespace Mango.Web.Controllers
             return View();
         }
 
-        [Authorize]
-        public IActionResult Login()
-        {
-            return RedirectToAction(nameof(Index));
-        }
-
-        public IActionResult Logout()
-        {
-            return SignOut("Cookies","iodc");
-        }
-
         public IActionResult Privacy()
         {
             return View();
@@ -40,6 +29,17 @@ namespace Mango.Web.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [Authorize]
+        public IActionResult Login()
+        {
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Logout()
+        {
+            return SignOut("Cookies", "iodc");
         }
     }
 }

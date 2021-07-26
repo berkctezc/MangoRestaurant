@@ -24,7 +24,6 @@ namespace Mango.Services.Identity
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
@@ -37,11 +36,11 @@ namespace Mango.Services.Identity
                 options.Events.RaiseSuccessEvents = true;
                 options.EmitStaticAudienceClaim = true;
             }).AddInMemoryIdentityResources(SD.IdentityResources)
-                .AddInMemoryApiScopes(SD.ApiScopes)
-                .AddInMemoryClients(SD.Clients)
-                .AddAspNetIdentity<ApplicationUser>();
+            .AddInMemoryApiScopes(SD.ApiScopes)
+            .AddInMemoryClients(SD.Clients)
+            .AddAspNetIdentity<ApplicationUser>();
 
-            services.AddScoped<IDbInitializer,DbInitializer>();
+            services.AddScoped<IDbInitializer, DbInitializer>();
 
             builder.AddDeveloperSigningCredential();
 
