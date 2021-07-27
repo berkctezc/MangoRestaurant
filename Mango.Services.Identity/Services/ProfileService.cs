@@ -20,7 +20,7 @@ namespace Mango.Services.Identity.Services
         public ProfileService(
             IUserClaimsPrincipalFactory<ApplicationUser> userClaimsPrincipalFactory,
             UserManager<ApplicationUser> userManager,
-            RoleManager<ApplicationUser> roleManager)
+            RoleManager<IdentityRole> roleManager)
         {
             _userClaimsPrincipalFactory = userClaimsPrincipalFactory;
             _userManager = userManager;
@@ -54,7 +54,7 @@ namespace Mango.Services.Identity.Services
                     }
                 }
             }
-
+            context.IssuedClaims=claims;
         }
 
         public async Task IsActiveAsync(IsActiveContext context)
