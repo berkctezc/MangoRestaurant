@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,6 +36,11 @@ namespace Mango.Web.Services
                         Encoding.UTF8, "application/json");
                 }
 
+                if (!string.IsNullOrEmpty(apiRequest.AccessToken))
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiRequest.AccessToken);
+                }
+
                 HttpResponseMessage apiResponse = null;
                 switch (apiRequest.ApiType)
                 {
@@ -55,7 +61,7 @@ namespace Mango.Web.Services
 
                 var apiContent = await apiResponse.Content.ReadAsStringAsync();
                 var apiResponseDto = JsonConvert.DeserializeObject<T>(apiContent);
-                
+
                 return apiResponseDto;
             }
             catch (Exception e)
