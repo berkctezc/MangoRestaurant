@@ -1,8 +1,10 @@
 ﻿using Mango.Web.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Mango.Web.Controllers
 {
@@ -32,8 +34,9 @@ namespace Mango.Web.Controllers
         }
 
         [Authorize]
-        public IActionResult Login()
+        public async Task<IActionResult> LoginAsync()
         {
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
             return RedirectToAction(nameof(Index));
         }
 
