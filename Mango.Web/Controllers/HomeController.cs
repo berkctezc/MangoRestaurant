@@ -1,8 +1,11 @@
 ﻿using Mango.Web.Models;
-using Microsoft.AspNetCore.Authentication;
+using Mango.Web.Services.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -11,15 +14,24 @@ namespace Mango.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IProductService _productService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IProductService productService)
         {
             _logger = logger;
+            _productService = productService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            return View();
+            List<ProductDto> list = new();
+            var response = await _productService.GetAllProductsAsync<ResponseDto>("");
+            if(response!=null && response.IsSuccess)
+            {
+                list = JsonConvert.DeserializeObject<List<ProductDto>>(Convert.ToString(response.Result));
+            }
+
+            return View(list);
         }
 
         public IActionResult Privacy()
@@ -36,7 +48,7 @@ namespace Mango.Web.Controllers
         [Authorize]
         public async Task<IActionResult> LoginAsync()
         {
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(IndexAsync));
         }
 
         public IActionResult Logout()
