@@ -17,7 +17,6 @@
                     <div class="card-header">
                         <h2>Local Account</h2>
                     </div>
-
                     <div class="card-body">
                         <form asp-route="Login">
                             <input type="hidden" asp-for="ReturnUrl" />
@@ -45,10 +44,13 @@
                             <button class="btn btn-secondary" name="button" value="cancel">Cancel</button>
                         </form>
                     </div>
+
+                    <div class="card-footer">
+                        <a href="@Url.Action("Register", new{ Model.ReturnUrl })">New User? Register</a>
+                    </div>
                 </div>
             </div>
         }
-
         @if (Model.VisibleExternalProviders.Any())
         {
             <div class="col-sm-6">
@@ -62,10 +64,10 @@
                             {
                                 <li class="list-inline-item">
                                     <a class="btn btn-secondary"
-                                       asp-controller="External"
-                                       asp-action="Challenge"
-                                       asp-route-scheme="@provider.AuthenticationScheme"
-                                       asp-route-returnUrl="@Model.ReturnUrl">
+                               asp-controller="External"
+                               asp-action="Challenge"
+                               asp-route-scheme="@provider.AuthenticationScheme"
+                               asp-route-returnUrl="@Model.ReturnUrl">
                                         @provider.DisplayName
                                     </a>
                                 </li>
