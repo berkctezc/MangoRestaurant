@@ -22,7 +22,7 @@ namespace Mango.Web.Controllers
             _productService = productService;
         }
 
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> Index()
         {
             List<ProductDto> list = new();
             var response = await _productService.GetAllProductsAsync<ResponseDto>("");
@@ -46,9 +46,9 @@ namespace Mango.Web.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> LoginAsync()
+        public IActionResult Login()
         {
-            return RedirectToAction(nameof(IndexAsync));
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Logout()
