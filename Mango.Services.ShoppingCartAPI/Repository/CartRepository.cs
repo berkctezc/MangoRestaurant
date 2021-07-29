@@ -115,7 +115,7 @@ namespace Mango.Services.ShoppingCartAPI.Repository
                 return true;
 
             }
-            catch(Exception e)
+            catch
             {
                 return false;
             }

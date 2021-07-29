@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Mango.Services.ShoppingCartAPI.Repository;
 
 namespace Mango.Services.ShoppingCartAPI
 {
@@ -35,8 +36,7 @@ namespace Mango.Services.ShoppingCartAPI
             IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
             services.AddSingleton(mapper);
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            //services.AddScoped<IProductRepository, ProductRepository>();
-
+            services.AddScoped<ICartRepository, CartRepository>();
             services.AddControllers();
 
             services.AddAuthentication("Bearer")
