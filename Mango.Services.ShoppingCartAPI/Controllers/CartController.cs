@@ -12,12 +12,12 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
     public class CartController : Controller
     {
         private readonly ICartRepository _cartRepository;
-        private ResponseDto _response;
+        protected ResponseDto _response;
 
         public CartController(ICartRepository cartRepository)
         {
             _cartRepository = cartRepository;
-            _response = new ResponseDto();
+            this._response = new ResponseDto();
         }
 
         [HttpGet("GetCart/{userId}")]
@@ -37,7 +37,7 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
             return _response;
         }
 
-        [HttpGet("AddCart")]
+        [HttpPost("AddCart")]
         public async Task<object> AddCart(CartDto cartDto)
         {
             try
@@ -54,7 +54,7 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
             return _response;
         }
 
-        [HttpGet("UpdateCart")]
+        [HttpPost("UpdateCart")]
         public async Task<object> UpdateCart(CartDto cartDto)
         {
             try

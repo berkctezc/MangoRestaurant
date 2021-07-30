@@ -34,7 +34,7 @@ namespace Mango.Web.Controllers
 
         public async Task<IActionResult> ProductCreate()
         {
-            return await Task.Run(() => View());
+            return View();
         }
 
         [HttpPost]
@@ -83,7 +83,7 @@ namespace Mango.Web.Controllers
             return View(model);
         }
 
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> ProductDelete(int productId)
         {
             var accessToken = await HttpContext.GetTokenAsync("access_token");
