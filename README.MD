@@ -349,5 +349,6 @@ dotnet new isui
 ```
 
 - Now we got the template files for our identity server in our projects root folder. Let's create a new MVC Project inside services folder and move the files to corresponding places
-
-- Create SD for keeping stati
+- Create SD for keeping static files
+- 
+- README WORK IN PROGRESS

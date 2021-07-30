@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Mango.Services.ShoppingCartAPI.Models.Dto
+namespace Mango.Web.Models.Dto
 {
     public class CartDto
     {
