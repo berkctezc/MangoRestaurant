@@ -1,5 +1,3 @@
-using System;
-
 namespace Mango.Web.Models
 {
     public class ErrorViewModel
